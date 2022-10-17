@@ -140,13 +140,13 @@
 
 ## Screenshots
 
-<img src="./screenshots/home.png"></img>
-<img src="./screenshots/addhos.png" width="33%"></img>
-<img src="./screenshots/patsignup.png" width="33%"></img>
-<img src="./screenshots/addhosdata.png" width="33%"></img>
-<img src="./screenshots/bookbed.png" width="33%"></img>
-<img src="./screenshots/bookings.png" width="33%"></img>
-<img src="./screenshots/trigevents.png" width="33%"></img>
+<img src="./screenshots/home.png" width="97%"></img>
+<img src="./screenshots/addhos.png" width="32%"></img>
+<img src="./screenshots/patsignup.png" width="32%"></img>
+<img src="./screenshots/addhosdata.png" width="32%"></img>
+<img src="./screenshots/bookbed.png" width="32%"></img>
+<img src="./screenshots/bookings.png" width="32%"></img>
+<img src="./screenshots/trigevents.png" width="32%"></img>
 
 ## Brief of tools usage
 
