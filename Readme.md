@@ -1,5 +1,7 @@
 # Cov19beds
 
+[Live application here](http://13.232.250.111/)
+
 ## Description
 
 - **Cov19beds** is a fullstack website that connects the hospitals and patients, making bed slot booking seamless.
@@ -194,6 +196,8 @@
 - In this project, Nginx is used as a reverse proxy, using reverse proxy helps in completely isolating the original application from the enduser adding an extra layer of security as the application can now be served from behind the firewall. Nginx forwards the incoming requests from browser to gunicorn and forwards response from gunicorn to the browser.
 
 ## Potential improvements
+
+- Enable HTTPS on website - will be implemented soon
 
 - Currently all the errors are handled using single error handler, if some error occurs in the application user is redirected to the home page. Error handling can be modified so that user can be notified about the exact error.
 
