@@ -1,0 +1,62 @@
+{% extends 'base.html' %} {% block title %} User Login {% endblock title %} {%
+block body %}
+
+<section id="admin-login" class="admin-login section-bg">
+  <div class="container">
+    <div class="section-title">
+      <h2>Patient login</h2>
+      <p>Enter SRFID and birthdate to login</p>
+    </div>
+
+    <form action="/usersignup" method="post" role="form">
+      {% include 'message.html' %}
+
+      <div class="row">
+        <div class="col-md-3"></div>
+        <div class="col-md-6 form-group">
+          <div class="form-group mt-2">
+            <input
+              type="text"
+              class="form-control"
+              name="srfid"
+              placeholder="Enter the SRIF ID"
+              required
+            />
+          </div>
+          <div class="form-group mt-2">
+            <input
+              type="email"
+              class="form-control"
+              name="email"
+              placeholder="Enter the Email"
+              required
+            />
+          </div>
+          <div class="input-group mt-2">
+            <span class="input-group-text" id="datedesc">DOB</span>
+            <input type="date" class="form-control" name="dob" aria-describedby="datedesc" required />
+          </div>
+          <div class="form-group mt-2">
+            <input
+              type="password"
+              class="form-control"
+              name="password"
+              placeholder="Create a password"
+              required
+            />
+          </div>
+        </div>
+        <div class="col-md-3"></div>
+      </div>
+      <div class="text-center">
+        <button type="submit" class="mt-3 submit-btn">Sign Up</button>
+      </div>
+    </form>
+
+    <div class="text-center mt-2">
+      <a href="/userlogin">Click here</a> to Login
+    </div>
+  </div>
+</section>
+
+{% endblock body %}

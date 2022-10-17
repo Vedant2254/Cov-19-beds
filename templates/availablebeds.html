@@ -1,0 +1,48 @@
+{% extends 'base.html' %} {% block title %} Available beds {% endblock title %}
+{% block body %}
+
+<section class="triggered-events section-bg">
+  <div class="container">
+    <div class="display-4 text-center" style="color:#1977cc">Available beds</div>
+    <br />
+
+    <div class="row">
+      <div class="col-md-1"></div>
+      <div class="col-md-10 mb-3">
+        <div class="card">
+          <div class="card-body bg-light table-responsive">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th scope="col">Sno</th>
+                  <th scope="col">Hospital Code</th>
+                  <th scope="col">Hospital Name</th>
+                  <th scope="col">Normal Bed</th>
+                  <th scope="col">H.I.C.U Bed</th>
+                  <th scope="col">I.C.U Bed</th>
+                  <th scope="col">Ventilator Bed</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for post in posts %}
+                <tr>
+                  <td>{{loop.index}}</td>
+                  <td>{{post.hcode}}</td>
+                  <td>{{post.hname}}</td>
+                  <td>{{post.normalbed}}</td>
+                  <td>{{post.hicubed}}</td>
+                  <td>{{post.icubed}}</td>
+                  <td>{{post.ventbed}}</td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-1"></div>
+    </div>
+  </div>
+</section>
+
+{% endblock body %}

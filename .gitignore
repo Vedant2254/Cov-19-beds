@@ -1,0 +1,6 @@
+__pycache__
+local-data
+config.json
+env
+cov19bedsVM.ppk
+wsgi.py

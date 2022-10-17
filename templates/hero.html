@@ -1,0 +1,20 @@
+<!-- ======= Hero Section ======= -->
+<section id="hero" class="d-flex align-items-center">
+  <div class="px-5">
+    <h1>
+      Welcome to <br />
+      <span style="color: #1977cc">Covid bed slot booking system</span>
+    </h1>
+    <h2>We connect hospitals and patients making bed slot booking seamless</h2>
+    {% if not current_user.is_authenticated %}
+    <a href="/userlogin" class="btn-get-started scrollto">Login / Register</a>
+    {% elif current_user.username %}
+    <a href="/addhospitaluser" class="btn-get-started scrollto">Add hospital</a>
+    {% elif current_user.srfid %}
+    <a href="/slotbooking" class="btn-get-started scrollto">Book a bed</a>
+    {% else %}
+    <a href="/addhospitalinfo" class="btn-get-started scrollto">Add hospital data</a>
+    {% endif %}
+  </div>
+</section>
+<!-- End Hero -->

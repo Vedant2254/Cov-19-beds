@@ -1,0 +1,184 @@
+{% extends 'base.html' %} {% block title %} Add Hospital Information {% endblock
+title %} {% block body %}
+
+<section class="triggered-events section-bg">
+  <div class="container">
+    <div class="section-title">
+      <h2>Add hospital data</h2>
+      <p>Enter details below</p>
+    </div>
+    {% include 'message.html' %}
+
+    <div class="row">
+      <div class="col-md-4">
+        <div class="card mb-3">
+          <div class="card-body bg-light">
+            <h5 class="text-center" style="color: #1977cc">
+              Covid Care Center
+            </h5>
+
+            <form action="/addhospitalinfo" , method="POST">
+              <div class="form-group">
+                <input
+                  type="text"
+                  class="form-control mt-2"
+                  name="hcode"
+                  value="{{current_user.hcode}}"
+                  placeholder="Enter Hospital Code"
+                  readonly
+                  required
+                />
+              </div>
+
+              <div class="form-group">
+                <input
+                  type="text"
+                  class="form-control mt-2"
+                  name="hname"
+                  placeholder="Enter Hospital Name"
+                  required
+                />
+              </div>
+
+              <div class="form-group">
+                <input
+                  type="number"
+                  class="form-control mt-2"
+                  name="normalbed"
+                  placeholder="Normal Beds Available"
+                  required
+                />
+              </div>
+
+              <div class="form-group">
+                <input
+                  type="number"
+                  class="form-control mt-2"
+                  name="hicubed"
+                  placeholder="HICU Beds Available"
+                  required
+                />
+              </div>
+
+              <div class="form-group">
+                <input
+                  type="number"
+                  class="form-control mt-2"
+                  name="icubed"
+                  placeholder="ICU Beds Available"
+                  required
+                />
+              </div>
+
+              <div class="form-group">
+                <input
+                  type="number"
+                  class="form-control mt-2"
+                  name="ventbed"
+                  placeholder="Ventilator Beds Available"
+                  required
+                />
+              </div>
+
+              {% if not postsdata.hname %}
+              <button
+                class="btn mt-2 text-white"
+                style="background-color: #1977cc"
+                type="submit"
+              >
+                Add
+              </button>
+
+              {% else %}
+              <button
+                class="btn mt-2 text-white"
+                style="background-color: #1977cc"
+                type="submit"
+                disabled
+              >
+                Add
+              </button>
+
+              {% endif %}
+            </form>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-8 mb-3">
+        <div class="card w-53 h-100 bg-light">
+          <div class="row g-0">
+            <!-- <div class="col-md-4">
+            <img
+              src="https://source.unsplash.com/600x1200/?covid,hospital"
+              class="img-fluid rounded-start"
+              alt="..."
+            />
+          </div> -->
+            <div class="col-12">
+              <div class="card-body">
+                <h5 class="card-title" style="color: #1977cc">Hospital Data</h5>
+                <div class="card w-100">
+                  <ul class="list-group list-group-flush">
+                    <li class="list-group-item">
+                      <b>Hospital Code</b> : {{postsdata.hcode}}
+                    </li>
+                    <li class="list-group-item">
+                      <b>Hospital Name</b> : {{postsdata.hname}}
+                    </li>
+                    <li class="list-group-item">
+                      <b>Normal Beds Available</b> : {{postsdata.normalbed}}
+                    </li>
+                    <li class="list-group-item">
+                      <b>H.I.C.U Beds Available</b> : {{postsdata.hicubed}}
+                    </li>
+                    <li class="list-group-item">
+                      <b>I.C.U Beds Available</b> : {{postsdata.icubed}}
+                    </li>
+                    <li class="list-group-item">
+                      <b>Ventilator Beds Available</b> : {{postsdata.ventbed}}
+                    </li>
+                    <!-- <li class="list-group-item">
+                    <a href="/hedit/{{postsdata.id}}"
+                      ><i class="fas fa-edit fa-5x"></i
+                    ></a>
+                    <a href="/hdelete"><i class="fas fa-trash-alt"></i></a>
+                  </li> -->
+                  </ul>
+                </div>
+                <div class="mt-3">
+                  {% if not postsdata.id %}
+                  <a
+                    href="/hedit/{{postsdata.id}}"
+                    class="btn text-white disabled"
+                    style="background-color: #1977cc"
+                    ><i class="fas fa-edit fa-1x"></i
+                  ></a>
+                  <a
+                    href="/hdelete/{{postsdata.id}}"
+                    class="btn btn-danger text-white disabled"
+                    ><i class="fas fa-trash-alt fa-1x"></i
+                  ></a>
+                  {% else %}
+                  <a
+                    href="/hedit/{{postsdata.id}}"
+                    class="btn btn-info text-white"
+                    style="background-color: #1977cc"
+                    ><i class="fas fa-edit fa-1x"></i
+                  ></a>
+                  <a
+                    href="/hdelete/{{postsdata.id}}"
+                    class="btn btn-danger text-white"
+                    ><i class="fas fa-trash-alt fa-1x"></i
+                  ></a>
+                  {% endif %}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endblock body %}

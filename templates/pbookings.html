@@ -1,0 +1,47 @@
+{% extends 'base.html' %} {% block title %} Patient Details {% endblock title %}
+{% block body %}
+
+<section class="triggered-events section-bg">
+  <div class="container">
+    <div class="display-4 text-center" style="color:#1977cc">Patients details</div>
+    <br />
+    {% include 'message.html' %}
+
+    <div class="row">
+      <div class="col-md-1"></div>
+      <div class="col-md-10 mb-3">
+        <div class="card">
+          <div class="card-body bg-light table-responsive">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th scope="col">SRF ID</th>
+                  <th scope="col">Name</th>
+                  <th scope="col">Phone no</th>
+                  <th scope="col">Address</th>
+                  <th scope="col">Oxygen Level</th>
+                  <th scope="col">Bed Type</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for post in posts %}
+                <tr>
+                  <td>{{post.srfid}}</td>
+                  <td>{{post.pname}}</td>
+                  <td>{{post.pphone}}</td>
+                  <td>{{post.paddress}}</td>
+                  <td>{{post.spo2}}</td>
+                  <td>{{post.bedtype}}</td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-1"></div>
+    </div>
+  </div>
+</section>
+
+{% endblock body %}

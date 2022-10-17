@@ -1,0 +1,56 @@
+{% extends 'base.html' %} {% block title %} Patient details {% endblock title %}
+{% block body %}
+
+<section class="triggered-events section-bg">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-2"></div>
+      <div class="col-md-8">
+        <div class="card">
+          <div class="card-body bg-light">
+            <div class="mb-3">
+              <h4 class="mb-1" style="color:#1977cc">Patient details</h4>
+              <p class="fs-6 mb-3">
+                <span class="fw-bold">SrfId:</span> {{current_user.srfid}}<br />
+                <span class="fw-bold mb-0">Email:</span> {{current_user.email}}<br />
+                <span class="fw-bold mb-0">DOB:</span> {{current_user.dob}}<br />
+              </p>
+            </div>
+            <hr />
+
+            <div class="table-responsive">
+              <h4 class="mb-2" style="color:#1977cc">Patient Booking details</h4>
+              {% if data %}
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th scope="col">Srf ID</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Address</th>
+                    <th scope="col">Oxygen Level</th>
+                    <th scope="col">Hospital Code</th>
+                    <th scope="col">Bed Type</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>{{data.srfid}}</td>
+                    <td>{{data.pname}}</td>
+                    <td>{{data.paddress}}</td>
+                    <td>{{data.spo2}}</td>
+                    <td>{{data.hcode}}</td>
+                    <td>{{data.bedtype}}</td>
+                  </tr>
+                </tbody>
+              </table>
+              {% else %} No Booking records {% endif %}
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-2"></div>
+    </div>
+  </div>
+</section>
+
+{% endblock body %}

@@ -1,0 +1,68 @@
+/* width */
+::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #cde7ff;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #1977cc;
+  border-radius: 20px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #1977cc;
+}
+
+.admin-login {
+  height: 100vh;
+}
+
+.admin-login > div {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  transition: all 0.5s;
+}
+
+.triggered-events {
+  height: 100vh;
+}
+
+.triggered-events > div {
+  position: absolute;
+  left: 50%;
+  top: 16%;
+  transform: translateX(-50%);
+}
+
+.submit-btn {
+  border: none;
+  outline: none;
+  padding: 7px 20px;
+  border-radius: 5px;
+  color: white;
+  background: #1977cc;
+}
+
+#hero {
+  /* background-image: url("../img/hero-bg-2.jpg"); */
+  background-image: linear-gradient(
+      to right,
+      rgba(241, 247, 253),
+      rgba(255, 255, 255, 0) 70%,
+      rgba(241, 247, 253, 0)
+    ),
+    url("../img/hero-bg-2.jpg");
+}
+
+.navbar .dropdown ul {
+  top: 100%;
+}

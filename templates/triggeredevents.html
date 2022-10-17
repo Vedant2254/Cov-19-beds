@@ -1,0 +1,52 @@
+{% extends 'base.html' %} {% block title %} Triggered Events {% endblock title
+%} {% block body %}
+
+<section class="triggered-events section-bg">
+  <div class="container">
+    <div class="display-4 text-center text-bold" style="color:#1977cc">Triggered Events</div>
+    <br />
+
+    <div class="row">
+      <div class="col-md-1"></div>
+      <div class="col-md-10">
+        <div class="card">
+          <div class="card-body bg-light table-responsive">
+            {% if trigdata %}
+            <table class="table">
+              <thead>
+                <tr>
+                  <th scope="col">Sno</th>
+                  <th scope="col">Hospital Code</th>
+                  <th scope="col">Normal bed</th>
+                  <th scope="col">HICU bed</th>
+                  <th scope="col">ICU bed</th>
+                  <th scope="col">Ventilator bed</th>
+                  <th scope="col">Action</th>
+                  <th scope="col">Date</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for data in trigdata %}
+                <tr>
+                  <td>{{loop.index}}</td>
+                  <td>{{data.hcode}}</td>
+                  <td>{{data.normalbed}}</td>
+                  <td>{{data.hicubed}}</td>
+                  <td>{{data.icubed}}</td>
+                  <td>{{data.ventbed}}</td>
+                  <td>{{data.querys}}</td>
+                  <td>{{data.date}}</td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+            {% else %} No triggered events have occured {% endif %}
+          </div>
+        </div>
+      </div>
+      <div class="col-md-1"></div>
+    </div>
+  </div>
+</section>
+
+{% endblock body %}
