@@ -112,6 +112,7 @@
      - Now to authenticate the application for sending email through above provided gmail we need to provide password for gmail. _Password that you use for logging in to your account won't work, you need to use_ **App Passwords** _feature of google for authenticating our application._
      - To enable and create **App passwords** visit [My Google Account](https://myaccount.google.com/), enable **2-Step Verication** for your google account, now you should be able to see **App Passwords** below 2-Step Verification.
      - Inside **App Passwords** select the app as **Mail** and device as **Other (Custom)**, name the app whatever you want (name is just for you, so that you can recognize it later) and click on **GENERATE**. You'll see a 16-character password, copy it and save it securely because you may not be able to view it again, change value of `gpassword` in `insertadmin.py` to this 16-character password.
+     - Uncomment the commented lines in `add_hospital_user()` function in `app.py` file, the corresponding code is for sending mail to the hospital user.
      - For more clarification, watch [this video](https://youtu.be/Jp9B0rY6Fxk) by Nick Janetakis on how to enable App passwords in google account.
    - Now, just run the script and admin with be inserted into the database.
 
