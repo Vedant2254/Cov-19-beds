@@ -107,12 +107,12 @@
      ```
    - These are login credentials for admin. Set the desired values of `username` and `password`, you can keep `gmail` and `gpassword` as it is to skip them for now.
    - Enable emailing (Optional)
-     - _This is an optional step, follow it if you want application to send an email to the hospital when admin registers their hospital on website. It is important to notify hospitals about their registration and login credentials, but just for the sake of project you can skip these steps, project would still work seamlessly_.
+     - _This is an optional step, follow it if you want application to send an email on hospital registration and slot booking. You can skip these steps, project would still work seamlessly_.
      - To enable sending email set the value of `gmail` to your(admin) email address. This account will be used to send emails.
      - Now to authenticate the application for sending email through above provided gmail we need to provide password for gmail. _Password that you use for logging in to your account won't work, you need to use_ **App Passwords** _feature of google for authenticating our application._
      - To enable and create **App passwords** visit [My Google Account](https://myaccount.google.com/), enable **2-Step Verication** for your google account, now you should be able to see **App Passwords** below 2-Step Verification.
      - Inside **App Passwords** select the app as **Mail** and device as **Other (Custom)**, name the app whatever you want (name is just for you, so that you can recognize it later) and click on **GENERATE**. You'll see a 16-character password, copy it and save it securely because you may not be able to view it again, change value of `gpassword` in `insertadmin.py` to this 16-character password.
-     - Uncomment the commented lines in `add_hospital_user()` function in `app.py` file, the corresponding code is for sending mail to the hospital user.
+     - Uncomment the multiline comments in file `app.py` that start with `''' Sending email - uncomment this section`.
      - For more clarification, watch [this video](https://youtu.be/Jp9B0rY6Fxk) by Nick Janetakis on how to enable App passwords in google account.
    - Now, just run the script and admin with be inserted into the database.
 

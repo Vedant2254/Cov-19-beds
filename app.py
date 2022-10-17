@@ -35,9 +35,8 @@ login_manager.login_message_category = "warning"
 def load_user(user_id):
     return Patient.query.filter_by(srfid=user_id).first() or Hospitaluser.query.filter_by(hcode=user_id).first() or Admin.query.filter_by(username=user_id).first()
 
+
 # Database models
-
-
 class Admin(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(120), unique=True)
@@ -90,11 +89,12 @@ class Bookingpatient(UserMixin, db.Model):
     pphone = db.Column(db.String(12))
     paddress = db.Column(db.String(100))
 
+
 # setting up mail
+def get_admin():
+    return Admin.query.filter_by().first()
 
-
-def initiateMail():
-    admin = Admin.query.filter_by().first()
+def initiate_mail(admin):
     app.config.update(
         MAIL_SERVER='smtp.gmail.com',
         MAIL_PORT='465',
@@ -103,10 +103,6 @@ def initiateMail():
         MAIL_PASSWORD=f.decrypt(
             admin.gpassword.encode(encoding)).decode(encoding)
     )
-
-
-with app.app_context():
-    initiateMail()
 
 
 # required decorators
@@ -160,7 +156,7 @@ def home():
 
 
 @app.route('/admin', methods=['GET', 'POST'])
-def admin():
+def admin_login():
     if request.method == 'POST':
         username = request.form.get('username')
         password = request.form.get('password')
@@ -251,7 +247,7 @@ def logout():
 
 
 @app.route("/availablebeds")
-def availablebeds():
+def available_beds():
     posts = Hospitaldata.query.all()
     return render_template("availablebeds.html", posts=posts)
 
@@ -277,40 +273,48 @@ def add_hospital_user():
             flash("Hospital with entered hcode or email already exists", "warning")
             return render_template("addHosUser.html")
 
-        db.engine.execute(
-            f"INSERT INTO hospitaluser (hcode, email, password) VALUES ('{hcode}', '{email}', '{encpass}')")
+        new_hos = Hospitaluser(hcode=hcode, email=email, password=encpass)
+        db.session.add(new_hos)
 
-        ''' Sending email
-        message = (
-            "Thankyou for choosing us!\n\n" +
-            "As per your request we are registering your hospital with us. We are happy to have you " +
-            "and we appreciate your support for making booking process easier for patients.\n\n" +
+        try:
+            ''' Sending email - uncomment this section
+            message = (
+                "Thankyou for choosing us!\n\n" +
+                "As per your request we are registering your hospital with us. We are happy to have you " +
+                "and we appreciate your support for making booking process easier for patients.\n\n" +
 
-            "Here are your login credentials:\n" +
-            f"Hospital code: {hcode}\n"
-            f"Email: {email}\n"
-            f"Password: {password}\n\n"
+                "Here are your login credentials:\n" +
+                f"Hospital code: {hcode}\n"
+                f"Email: {email}\n"
+                f"Password: {password}\n\n"
 
-            "Now you can use above credentials to login to your hospital's account on our site " +
-            "http://localhost:5000. Do add your hospital data, so that others can view and book your beds.\n" +
-            "Thankyou."
-        )
+                "Now you can use above credentials to login to your hospital's account on our site " +
+                "http://localhost:5000. Do add your hospital data, so that others can view and book your beds.\n" +
+                "Thankyou."
+            )
 
-        Mail(app).send_message('COVID CARE CENTRE',
-                                sender=current_user.gmail,
-                                recipients=[email],
-                                body=message
-                                )
-        '''
+            admin = get_admin()
+            initiate_mail(admin)
+            Mail(app).send_message('COVID CARE CENTRE',
+                                    sender=admin.gmail,
+                                    recipients=[email],
+                                    body=message
+                                    )
+            '''
+            
+            db.session.commit()
+            flash("Data Sent and Inserted Successfully", "success")
 
-        flash("Data Sent and Inserted Successfully", "success")
+        except:
+            flash("Failed, Error occured while sending mail, hospital not added", "danger")
+
     return render_template('addHosUser.html')
 
 
 @app.route("/triggeredevents")
 @login_required
 @make_sure_user('admin')
-def triggeredevents():
+def triggered_events():
     trigdata = db.engine.execute(f"SELECT * FROM trigevents")
     return render_template("triggeredevents.html", trigdata=trigdata)
 
@@ -338,8 +342,9 @@ def add_hospital_info():
             flash("Data is already present, you can update it", "warning")
 
         elif hos_exists:
-            db.engine.execute(
-                f"INSERT INTO hospitaldata (hcode, hname, normalbed, hicubed, icubed, ventbed) VALUES ('{hcode}', '{hname}', {normalbed}, {hicubed}, {icubed}, {ventbed})")
+            new_data = Hospitaldata(hcode=hcode, hname=hname, normalbed=normalbed, hicubed=hicubed, icubed=icubed, ventbed=ventbed)
+            db.session.add(new_data)
+            db.session.commit()
             flash("Data added", "primary")
 
         else:
@@ -370,8 +375,15 @@ def hedit(id):
         icubed = request.form.get('icubed')
         ventbed = request.form.get('ventbed')
 
-        db.engine.execute(
-            f"UPDATE hospitaldata SET hcode='{hcode}', hname='{hname}', normalbed={normalbed}, hicubed={hicubed}, icubed={icubed}, ventbed={ventbed} WHERE id={id}")
+        db.session.query(Hospitaldata).filter_by(id=id).update({
+            'hcode': hcode,
+            'hname': hname,
+            'normalbed': normalbed,
+            'hicubed': hicubed,
+            'icubed': icubed,
+            'ventbed': ventbed
+        })
+        db.session.commit()
         flash("Data successfully updated", "success")
 
         return redirect("/addhospitalinfo")
@@ -390,8 +402,8 @@ def hdelete(id):
     if (curruser != urluser):
         flash("ID mismatch, please login with your account to delete data", "warning")
     else:
-        db.engine.execute(
-            f"DELETE FROM hospitaldata WHERE id={id}")
+        db.session.query(Hospitaldata).filter_by(id=id).delete()
+        db.session.commit()
         flash("Data successfully deleted", "danger")
 
     return redirect("/addhospitalinfo")
@@ -416,7 +428,7 @@ def change_pass():
         newpass = request.form.get('new-password')
 
         if check_password_hash(current_user.password, oldpass):
-            db.session.query(Patient).filter(Patient.srfid == current_user.srfid).update(
+            db.session.query(Patient).filter_by(srfid=current_user.srfid).update(
                 {'password': generate_password_hash(newpass)})
             db.session.commit()
             flash("Password change successfully", "success")
@@ -430,7 +442,7 @@ def change_pass():
 @app.route("/slotbooking", methods=['GET', 'POST'])
 @login_required
 @make_sure_user('patient')
-def slotbooking():
+def slot_booking():
     posts = Hospitaldata.query.filter()
 
     if request.method == "POST":
@@ -442,41 +454,73 @@ def slotbooking():
         pphone = request.form.get('pphone')
         paddress = request.form.get('paddress')
 
-        hos = Hospitaldata.query.filter_by(hcode=hcode).first()
-        patient = Bookingpatient.query.filter_by(srfid=srfid).first()
+        hos_data_exists = Hospitaldata.query.filter_by(hcode=hcode).first()
+        patient_exists = Bookingpatient.query.filter_by(srfid=srfid).first()
 
         if current_user.srfid != srfid:
             flash("You cannot book slot for other account", "warning")
             return render_template("slotbooking.html", posts=posts)
 
-        if not hos:
+        if not hos_data_exists:
             flash("Entered hospital code doesn't exist", "warning")
             return render_template("slotbooking.html", posts=posts)
 
-        if patient:
+        if patient_exists:
             flash(
                 "You already have a bed booked, view Patient details page to view your booking", "warning")
             return render_template("slotbooking.html", posts=posts)
 
-        beds = hos.__dict__[bedtype]
+        beds = hos_data_exists.__dict__[bedtype]
 
         if beds <= 0:
             flash("No beds available", "danger")
             return render_template("slotbooking.html", posts=posts)
 
-        db.session.query(Hospitaldata).filter(
-            Hospitaldata.hcode == hcode).update({bedtype: beds - 1})
-        res = Bookingpatient(srfid=srfid, bedtype=bedtype, hcode=hcode,
+        db.session.query(Hospitaldata).filter_by(hcode=hcode).update({bedtype: beds - 1})
+        new_book = Bookingpatient(srfid=srfid, bedtype=bedtype, hcode=hcode,
                              spo2=spo2, pname=pname, pphone=pphone, paddress=paddress)
-        db.session.add(res)
-        db.session.commit()
+        db.session.add(new_book)
 
-        flash("Your slot booking was successful. Kindly visit hospital for further procedure", "success")
+        try:
+            ''' Sending email - uncomment this section
+            hos = Hospitaluser.query.filter_by(hcode=hcode).first()
+            patient = Patient.query.filter_by(srfid=current_user.srfid).first()
+            message = (
+                "Thankyou for choosing us!\n\n" +
+                "Bed booking was successful\n\n" +
+
+                "Bed booked at:\n" +
+                f"Hospital code: {hos.hcode}\n"
+                f"Hospital Email: {hos.email}\n\n"
+
+                "Bed booked by:\n" +
+                f"Patient SRFID: {patient.srfid}\n"
+                f"DOB: {patient.dob}\n"
+                f"Email: {patient.email}\n\n"
+
+                "Thankyou."
+            )
+
+            admin = get_admin()
+            initiate_mail(admin)
+            Mail(app).send_message('COVID CARE CENTRE',
+                                    sender=admin.gmail,
+                                    recipients=[hos.email, current_user.email],
+                                    body=message
+                                    )
+            '''
+            
+            db.session.commit()
+            flash("Your slot booking was successful. Kindly visit hospital for further procedure", "success")
+
+        except:
+            flash("Failed, Error occured while sending mail, hospital not added", "danger")
+
         return render_template("slotbooking.html", posts=posts)
 
     srfid = current_user.srfid
-    patient = Bookingpatient.query.filter_by(srfid=srfid).first()
-    ispatient = not not patient
+    patient_exists = Bookingpatient.query.filter_by(srfid=srfid).first()
+    ispatient = not not patient_exists
 
     if ispatient: flash("You already have a bed booked, view Patient details page to view your booking", "warning")
     return render_template("slotbooking.html", posts=posts, ispatient=ispatient)
