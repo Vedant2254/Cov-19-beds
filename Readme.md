@@ -1,6 +1,6 @@
 # Cov19beds
 
-[Live application here](http://13.232.250.111/)
+[Live application here](http://www.cov19beds.tk/)
 
 ## Description
 
