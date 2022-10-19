@@ -1,11 +1,8 @@
-from http.client import HTTPException
-from pydoc import ispath
-from flask import Flask, current_app, request, redirect, render_template, flash
+from flask import Flask, request, redirect, render_template, flash
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import UserMixin, login_required, logout_user, login_user, login_manager, LoginManager, current_user
 from flask_mail import Mail
 from sqlalchemy import func
-import werkzeug
 from werkzeug.security import generate_password_hash, check_password_hash
 from cryptography.fernet import Fernet
 import json
