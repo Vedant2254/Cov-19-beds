@@ -1,7 +1,5 @@
 # Cov19beds
 
-[Live application here](http://www.cov19beds.tk/)
-
 ## Description
 
 - **Cov19beds** is a fullstack website that connects the hospitals and patients, making bed slot booking seamless.
